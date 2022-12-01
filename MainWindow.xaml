@@ -1,0 +1,131 @@
+﻿<!--
+    /// Author : R. Arun Mutharasu
+    /// Created On :01-12-2022
+    /// YouTube Channel : C# Design Pro 
+ -->
+
+<Window x:Class="Circular_Progress_Bar_App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Circular_Progress_Bar_App"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="600"
+        Width="350"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent">
+
+    <Grid>
+
+        <Border Background="#FFFFFF"
+                CornerRadius="20" />
+
+        <TextBlock Style="{StaticResource Title_Txt}" />
+
+        <Grid VerticalAlignment="Center"
+              HorizontalAlignment="Center">
+
+            <Path Style="{StaticResource ProgressBarBase}" />
+
+            <Grid Height="250"
+                  Width="250"
+                  Margin="255,-90,-235,0">
+
+                <Grid.RenderTransform>
+                    <RotateTransform Angle="90" />
+                </Grid.RenderTransform>
+
+                <Path x:Name="CircularProgressBar"
+                      Style="{StaticResource ProgressBarStyle}" />
+
+            </Grid>
+
+        </Grid>
+
+        <Image Style="{StaticResource ClockImage}" />
+
+        <Border Style="{StaticResource BackgroundBorder}" />
+
+        <Ellipse Style="{StaticResource BackgroundEllipse}" />
+
+        <Ellipse Style="{StaticResource ButtonEllipse}" />
+
+        <Ellipse Style="{StaticResource ButtonBackground}" />
+        
+        <!--Start / Stop Animation Toggle Button-->
+
+        <ToggleButton x:Name="Play_Btn"
+                      Height="75"
+                      Width="75"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Margin="0,280,0,0"
+                      Style="{StaticResource PlayBtn_Style}">
+
+            <ToggleButton.Resources>
+
+                <Storyboard x:Key="Start_Animation">
+
+                    <DoubleAnimation BeginTime="0:0:0"
+                                     Storyboard.TargetName="CircularProgressBar"
+                                     Storyboard.TargetProperty="StrokeDashOffset"
+                                     Duration="0:0:25"
+                                     From="100"
+                                     To="0" />
+
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     Storyboard.TargetName="CircularProgressBar"
+                                     From="0"
+                                     To="1"
+                                     BeginTime="0:0:0"
+                                     Duration="0:0:0" />
+
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     Storyboard.TargetName="CircularProgressBar"
+                                     From="1"
+                                     To="0"
+                                     BeginTime="0:0:8.5"
+                                     Duration="0:0:0" />
+
+                </Storyboard>
+
+                <Storyboard x:Key="Stop_Animation">
+
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     Storyboard.TargetName="CircularProgressBar"
+                                     From="1"
+                                     To="0"
+                                     BeginTime="0:0:0"
+                                     Duration="0:0:0" />
+
+                </Storyboard>
+                
+            </ToggleButton.Resources>
+
+            <ToggleButton.Triggers>
+
+                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                    <BeginStoryboard Storyboard="{StaticResource Start_Animation}" />
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                    <BeginStoryboard Storyboard="{StaticResource Stop_Animation}" />
+                </EventTrigger>
+                
+            </ToggleButton.Triggers>
+            
+        </ToggleButton>
+        
+        <!--Exit Button-->
+
+        <Button x:Name="ExitBtn"
+                Style="{StaticResource ExitBtnStyle}"
+                Click="ExitBtn_Click" />
+
+    </Grid>
+    
+</Window>
